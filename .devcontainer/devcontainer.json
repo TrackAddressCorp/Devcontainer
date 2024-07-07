@@ -1,0 +1,28 @@
+{
+    "name": "AddressTrackerBackend",
+    "dockerFile": "Dockerfile",
+    "mounts": [
+        "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+        "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
+    ],
+    "forwardPorts": [8080],
+    "dotenvFile": ".env",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "settings": {
+            "go.gopath": "/go",
+            "go.toolsGopath": "/go",
+            "go.useLanguageServer": true
+        },
+        "vscode": {
+            "extensions": [
+                "golang.go",
+                "Github.copilot",
+                "joaoacdias.golang-tdd",
+                "usernamehw.errorlens",
+                "juanblanco.solidity"
+            ]
+        }
+    }
+}
