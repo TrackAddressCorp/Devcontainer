@@ -14,6 +14,7 @@ COPY ./go.mod ./go.sum ./
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         git \
+        make \
         openssh-client \
         curl \
         python3 \
