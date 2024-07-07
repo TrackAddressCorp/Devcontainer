@@ -8,7 +8,6 @@
     "forwardPorts": [8080],
     "dotenvFile": ".env",
     "service": "app",
-    "workspaceFolder": "/workspace",
     "customizations": {
         "settings": {
             "go.gopath": "/go",
@@ -24,5 +23,5 @@
                 "juanblanco.solidity"
             ]
         }
-    }
+    },
 }

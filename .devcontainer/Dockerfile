@@ -1,13 +1,12 @@
-FROM golang:latest
+FROM golang:latest as devcontainer
 
 # Set the maintainer label
 LABEL maintainer="lzipp"
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /workspace
 
 # Copy the source code, go.mod, and go.sum files into the container
-# COPY ./src ./src
 COPY ./go.mod ./go.sum ./
 
 # Install development tools
@@ -30,14 +29,13 @@ RUN go install github.com/ethereum/go-ethereum/cmd/abigen@latest
 # RUN go install -v github.com/go-delve/delve/cmd/dlv@latest
 
 # Install Node.js and npm
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_current.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest
 
 # Install nodejs tools
 RUN npm install -g @web3-storage/w3cli
 
-# Install Rust
 # Install Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
     && . $HOME/.cargo/env \
