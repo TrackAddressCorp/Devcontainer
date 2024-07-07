@@ -36,5 +36,15 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
 # Install nodejs tools
 RUN npm install -g @web3-storage/w3cli
 
+# Install Rust
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
+    && . $HOME/.cargo/env \
+    && rustup --version \
+    && cargo --version \
+    && rustc --version
+
+# Install rust tool
+
 # Command to run the application
 CMD ["go", "run", "main.go"]
