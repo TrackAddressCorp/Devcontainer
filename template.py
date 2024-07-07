@@ -1,4 +1,4 @@
-# script for writing vars from .env to .emv.template for increased security
+# script for writing vars from .env to .env.template for increased security
 
 if __name__ == "__main__":
     with open('.env', 'r') as source_file:
