@@ -9,6 +9,15 @@ WORKDIR /workspace
 # Copy the source code, go.mod, and go.sum files into the container
 COPY ./go.mod ./go.sum ./
 
+# Install & configure zsh and Oh My Zsh
+RUN apt -y install zsh \
+    && sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+    # Set ZSH_THEME
+    && sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/' ~/.zshrc \
+    # Add plugins
+    && sed -i 's/plugins=(git)/plugins=(git docker)/' ~/.zshrc
+COPY config/.zshrc /root/.zshrc
+
 # Install development tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -47,5 +56,4 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
 RUN cargo install --force cargo-stylus cargo-stylus-check \
     && rustup target add wasm32-unknown-unknown
 
-# Command to run the application
-CMD ["go", "run", "main.go"]
+ENTRYPOINT ["/bin/zsh"]
