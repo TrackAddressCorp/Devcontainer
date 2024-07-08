@@ -1,6 +1,5 @@
 {
     "name": "AddressTrackerBackend",
-    // "dockerFile": "Dockerfile",
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
     "workspaceFolder": "/workspace",
