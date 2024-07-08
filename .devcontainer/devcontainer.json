@@ -1,9 +1,11 @@
 {
     "name": "AddressTrackerBackend",
-    // "dockerFile": "Dockerfile",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "app",
-    "workspaceFolder": "/workspace",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    // "dockerComposeFile": "docker-compose.yml",
+    // "service": "app",
+    // "workspaceFolder": "/workspace",
     "mounts": [
         "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
         "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
@@ -41,5 +43,6 @@
                 "serayuzgur.crates"
             ]
         }
-    }
+    },
+    "postCreateCommand": "echo 'Post create command executed in the container.'",
 }

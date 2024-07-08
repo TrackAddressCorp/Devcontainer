@@ -41,11 +41,10 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
     && . $HOME/.cargo/env \
     && rustup --version \
     && cargo --version \
-    && rustc --version
-
+    && rustc --version \
 # Install rust tool
-RUN cargo install --force cargo-stylus cargo-stylus-check \
+    && cargo install --force cargo-stylus cargo-stylus-check \
     && rustup target add wasm32-unknown-unknown
 
 # Command to run the application
-CMD ["go", "run", "main.go"]
+CMD ["/bin/sh"]
