@@ -9,15 +9,6 @@ WORKDIR /workspace
 # Copy the source code, go.mod, and go.sum files into the container
 COPY ./go.mod ./go.sum ./
 
-# Install & configure zsh and Oh My Zsh
-RUN apt -y install zsh \
-    && sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
-    # Set ZSH_THEME
-    && sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/' ~/.zshrc \
-    # Add plugins
-    && sed -i 's/plugins=(git)/plugins=(git docker)/' ~/.zshrc
-COPY config/.zshrc /root/.zshrc
-
 # Install development tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -27,7 +18,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
         python3 \
         python3-pip \
-        && rm -rf /var/lib/apt/lists/*
+        zsh \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configure oh my zsh
+RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+    && sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/' ~/.zshrc \
+    && sed -i 's/plugins=(git)/plugins=(git docker)/' ~/.zshrc
+COPY .zshrc /root/.zshrc
 
 # Download the Go modules
 RUN go mod download 
@@ -40,20 +38,19 @@ RUN go install github.com/ethereum/go-ethereum/cmd/abigen@latest
 # Install Node.js and npm
 RUN curl -sL https://deb.nodesource.com/setup_current.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g npm@latest
-
+    && npm install -g npm@latest \
 # Install nodejs tools
-RUN npm install -g @web3-storage/w3cli
+    && npm install -g @web3-storage/w3cli
 
 # Install Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
     && . $HOME/.cargo/env \
     && rustup --version \
     && cargo --version \
-    && rustc --version
-
-# Install rust tool
-RUN cargo install --force cargo-stylus cargo-stylus-check \
+    && rustc --version \
+# Install Rust tools
+    && cargo install --force cargo-stylus cargo-stylus-check \
     && rustup target add wasm32-unknown-unknown
 
 ENTRYPOINT ["/bin/zsh"]
+# CMD ["tail", "-f", "/dev/null"]
