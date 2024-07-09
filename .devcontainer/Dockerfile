@@ -27,14 +27,6 @@ RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/inst
     && sed -i 's/plugins=(git)/plugins=(git docker)/' ~/.zshrc
 COPY .zshrc /root/.zshrc
 
-# Download the Go modules
-RUN go mod download 
-# RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest 
-# RUN go install go.uber.org/mock/mockgen@latest 
-RUN go install github.com/ethereum/go-ethereum/cmd/abigen@latest 
-# RUN go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 
-# RUN go install -v github.com/go-delve/delve/cmd/dlv@latest
-
 # Install Node.js and npm
 RUN curl -sL https://deb.nodesource.com/setup_current.x | bash - \
     && apt-get install -y nodejs \
@@ -51,6 +43,10 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
 # Install rust tool
     && cargo install --force cargo-stylus cargo-stylus-check \
     && rustup target add wasm32-unknown-unknown
+
+# Download the Go modules
+RUN go mod download \
+    && go install github.com/ethereum/go-ethereum/cmd/abigen@latest 
 
 # Command to run the application
 CMD ["/bin/sh"]
