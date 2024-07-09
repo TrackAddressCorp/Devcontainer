@@ -48,9 +48,9 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
     && rustup --version \
     && cargo --version \
     && rustc --version \
-# Install Rust tools
+# Install rust tool
     && cargo install --force cargo-stylus cargo-stylus-check \
     && rustup target add wasm32-unknown-unknown
 
-ENTRYPOINT ["/bin/zsh"]
-# CMD ["tail", "-f", "/dev/null"]
+# Command to run the application
+CMD ["/bin/sh"]
