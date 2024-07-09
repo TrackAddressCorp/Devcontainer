@@ -6,9 +6,6 @@ LABEL maintainer="lzipp"
 # Set the working directory inside the container
 WORKDIR /workspace
 
-# Copy the source code, go.mod, and go.sum files into the container
-COPY ./go.mod ./go.sum ./
-
 # Install development tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -37,6 +34,9 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
 # Install rust tool
     && cargo install --force cargo-stylus cargo-stylus-check \
     && rustup target add wasm32-unknown-unknown
+
+# Copy the source code, go.mod, and go.sum files into the container
+COPY ./go.mod ./go.sum ./
 
 # Download the Go modules
 RUN go mod download \
