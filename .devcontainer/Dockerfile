@@ -36,11 +36,11 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
     && rustup target add wasm32-unknown-unknown
 
 # Copy the source code, go.mod, and go.sum files into the container
-COPY ./go.mod ./go.sum ./
+COPY ../go.mod ../go.sum ./
 
 # Download the Go modules
 RUN go mod download \
-    && go install github.com/ethereum/go-ethereum/cmd/abigen@latest 
+    && go install github.com/ethereum/go-ethereum/cmd/abigen@latest
 
 # Command to run the application
 CMD ["/bin/sh"]

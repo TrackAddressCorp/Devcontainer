@@ -1,7 +1,8 @@
 {
     "name": "AddressTrackerBackend",
     "build": {
-        "dockerfile": "Dockerfile"
+        "dockerfile": "Dockerfile",
+        "context": ".."
     },
     "mounts": [
         "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
@@ -41,5 +42,5 @@
             ]
         }
     },
-    "postCreateCommand": "echo 'Post create command executed in the container.'",
+    "postCreateCommand": "echo 'Post create command executed in the container.'"
 }

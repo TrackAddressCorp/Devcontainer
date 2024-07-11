@@ -1,46 +1,26 @@
 include .env
 
 ################################################
-# 
-# w3 DID commands for web3.storage from filecoin
-# 
-################################################
-
-# create did
-w3did:
-	w3 space create > ../w3DIDprivate.key
-
-# create space
-w3space:
-	w3 space create $(name); \
-	@DID=$$(cat ../w3DIDprivate.key); \
-	w3 delegation create -c 'store/*' -c 'upload/*' $$DID -o proof.ucan
-
-################################################
 #
-# stylus commands
+# go mod commands
 #
 ################################################
 
-# create new stylus project
-stnew:
-	cargo stylus new $(name)
+# tidy go modules && get missing ones
+tidy:
+	cd .. \
+	&& go mod tidy \
+	&& cd -
 
-# check if project valid
-stcheck:
-	cargo stylus check
+################################################
+#
+# docker commands
+#
+################################################
 
-# estimate gas fee
-stgas:
-	cargo stylus deploy \
-	--private-key-path=../w3DIDprivate.key \
-	--estimate-gas-only
+# build devcontainer image
+build:
+	docker build -t devcontainer -f Dockerfile ..
 
-# deploy contract
-stdeploy:
-	cargo stylus deploy \
-	--private-key-path=../w3DIDprivate.key
-
-# export contract abi
-stabi:
-	cargo stylus export-abi
+buildnc:
+	docker build --no-cache -t devcontainer -f Dockerfile ..
